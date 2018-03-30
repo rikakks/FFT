@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.fftpack
+from math import pi
 
 
 def prompt_for_integer(description):
@@ -23,7 +24,6 @@ def prompt_for_array(description):
             print("Please enter a valid float.")
 
 
-pi = 3.1415926535897932
 distance_earth_sun = 149.6 * (10**9)
 light_v = 3 * 10**8
 frequency = prompt_for_array('frequency')

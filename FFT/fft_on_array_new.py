@@ -33,29 +33,16 @@ t = [multiple * step_size for multiple in range(n_of_samples)]
 
 
 class Wave:
-    def __init__(self):
-        pass
-
-    def originalfrequency(self, n):
-        self.originalfrequency = n
-
-    def period(self):
+    def __init__(self, originalfrequency):
+        self.originalfrequency = originalfrequency
         self.period = period
-
-    def amplitude(self):
         self.amplitude = 1 / len(frequency)
-
-    def function(self):
         self.function = [
             self.amplitude * np.sin(self.originalfrequency * 2.0 * pi * number)
             for number in t
         ]
-
-    def dopplerfrequency(self):
         self.dopplerfrequency = (1 + (observer_v - source_v) /
                                  (3 * 10**8)) * self.originalfrequency
-
-    def dopplerfunction(self):
         self.dopplerfunction = [
             self.amplitude * np.sin(self.dopplerfrequency * number)
             for number in t
@@ -69,13 +56,7 @@ def waves():
     originalwave_sum = [0] * n_of_samples
     dopplerwave_sum = [0] * n_of_samples
     for a, freq in enumerate(frequency):
-        wave = Wave()
-        wave.originalfrequency(freq)
-        wave.dopplerfrequency()
-        wave.period()
-        wave.amplitude()
-        wave.function()
-        wave.dopplerfunction()
+        wave = Wave(freq)
         originalwave_sum += np.asarray(wave.function)
         dopplerwave_sum += np.asarray(wave.dopplerfunction)
         originalwaves["wave_{}".format(a)] = wave

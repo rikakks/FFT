@@ -2,30 +2,33 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.fftpack
 
+
+def prompt_for_integer(description):
+    while True:
+        try:
+            return int(input(f"Enter {description}: "))
+        except Exception:
+            print("Please enter a valid integer.")
+
+
+def prompt_for_array(description):
+    result = []
+    while True:
+        result_input = input(f"Enter {description}, otherwise hit return: ")
+        if result_input == '':
+            return result
+        try:
+            result.append(float(result_input))
+        except ValueError:
+            print("Please enter a valid float.")
+
+
 pi = 3.1415926535897932
 distance_earth_sun = 149.6 * (10**9)
 light_v = 3 * 10**8
-frequency = []
-while True:
-    frequency_input = input("Enter Frequency, otherwise hit return: ")
-    if frequency_input == '':
-        break
-    try:
-        frequency.append(float(frequency_input))
-    except ValueError:
-        print("Please enter a valid float.")
-while True:
-    try:
-        period = int(input("Enter period: "))
-        break
-    except ValueError:
-        print("Please enter a valid integer.")
-while True:
-    try:
-        n_of_samples = int(input("Enter number of samples: "))
-        break
-    except ValueError:
-        print("Please enter a valid integer.")
+frequency = prompt_for_array('frequency')
+period = prompt_for_integer('period')
+n_of_samples = prompt_for_integer('number of samples')
 observer_v = 2.0
 source_v = 0
 step_size = period / n_of_samples

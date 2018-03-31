@@ -26,7 +26,7 @@ def prompt_for_array(description):
 
 distance_earth_sun = 149.6 * (10**9)
 light_v = 3 * 10**8
-frequency = prompt_for_array('frequency')
+frequencies = prompt_for_array('frequency')
 period = prompt_for_integer('period')
 n_of_samples = prompt_for_integer('number of samples')
 observer_v = 200000000
@@ -36,33 +36,28 @@ t = [multiple * step_size for multiple in range(n_of_samples)]
 
 
 class Wave:
-    def __init__(self, originalfrequency):
-        self.originalfrequency = originalfrequency
-        self.amplitude = 1 / len(frequency)
+    def __init__(self, frequency):
+        self.frequency = frequency
+        self.amplitude = 1 / len(frequencies)
         self.function = [
-            self.amplitude * np.sin(self.originalfrequency * 2.0 * pi * number)
+            self.amplitude * np.sin(self.frequency * 2.0 * pi * number)
             for number in t
         ]
-        self.dopplerfrequency = (1 + (observer_v - source_v) /
-                                 (3 * 10**8)) * self.originalfrequency
-        self.dopplerfunction = [
-            self.amplitude * np.sin(self.dopplerfrequency * 2.0 * pi * number)
-            for number in t
-        ]
+
+    def shift(self, v):
+        dopplerfrequency = (1 + v / (3 * 10**8)) * self.frequency
+        return Wave(dopplerfrequency)
 
 
 def waves():
     global originalwave_sum, dopplerwave_sum
-    originalwaves = {}
-    dopplerwaves = {}
     originalwave_sum = [0] * n_of_samples
     dopplerwave_sum = [0] * n_of_samples
-    for a, freq in enumerate(frequency):
+    for a, freq in enumerate(frequencies):
         wave = Wave(freq)
+        doppler_wave = wave.shift(observer_v - source_v)
         originalwave_sum += np.asarray(wave.function)
-        dopplerwave_sum += np.asarray(wave.dopplerfunction)
-        originalwaves["wave_{}".format(a)] = wave
-        dopplerwaves["wave_{}".format(a)] = wave
+        dopplerwave_sum += np.asarray(doppler_wave.function)
     return
 
 

@@ -1,7 +1,7 @@
+from math import pi
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.fftpack
-from math import pi
 
 
 def prompt_for_integer(description):
@@ -29,7 +29,7 @@ light_v = 3 * 10**8
 frequency = prompt_for_array('frequency')
 period = prompt_for_integer('period')
 n_of_samples = prompt_for_integer('number of samples')
-observer_v = 2.0
+observer_v = 200000000
 source_v = 0
 step_size = period / n_of_samples
 t = [multiple * step_size for multiple in range(n_of_samples)]
@@ -38,7 +38,6 @@ t = [multiple * step_size for multiple in range(n_of_samples)]
 class Wave:
     def __init__(self, originalfrequency):
         self.originalfrequency = originalfrequency
-        self.period = period
         self.amplitude = 1 / len(frequency)
         self.function = [
             self.amplitude * np.sin(self.originalfrequency * 2.0 * pi * number)
@@ -47,7 +46,7 @@ class Wave:
         self.dopplerfrequency = (1 + (observer_v - source_v) /
                                  (3 * 10**8)) * self.originalfrequency
         self.dopplerfunction = [
-            self.amplitude * np.sin(self.dopplerfrequency * number)
+            self.amplitude * np.sin(self.dopplerfrequency * 2.0 * pi * number)
             for number in t
         ]
 
